@@ -32,7 +32,7 @@ void loop() {
   servo2.tick();      // здесь происходит движение серво по встроенному таймеру!
 #endif
 
-  if (currentChannel == -3) {         // если СЕРВИС
+  if (currentChannel == -3) {  // если СЕРВИС
     serviceTick();
   } else {  // если ОТЛАДКА или НАСТРОЙКИ
     if (millis() - commonTimer > 1000) {

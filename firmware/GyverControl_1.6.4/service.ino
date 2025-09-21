@@ -54,9 +54,9 @@ void serviceIN() {    // выполняем при входе в сервис
   serviceFlag = true;
   for (byte i = 0; i < 10; i++) channelStatesServ[i] = channelStates[i];
   
-  realTime[0] = rtc.getHours();
-  realTime[1] = rtc.getMinutes();
-  realTime[2] = rtc.getSeconds();
+  realTime[0] = rtc.getTime().hour;
+  realTime[1] = rtc.getTime().minute;
+  realTime[2] = rtc.getTime().second;
 }
 
 void serviceOUT() {   // выполняем при выходе с сервиса
@@ -113,7 +113,7 @@ void serviceOUT() {   // выполняем при выходе с сервис�
 #endif
   if (timeChanged) {
     timeChanged = false;
-    rtc.setTime(realTime[2], realTime[1], realTime[0], rtc.getDate(), rtc.getMonth(), rtc.getYear());
+    rtc.setTime(realTime[2], realTime[1], realTime[0], rtc.getTime().day, rtc.getTime().month, rtc.getTime().year);
   }
 }
 
@@ -143,7 +143,7 @@ void startupService() {
       startFlagDawn = true;
       if (timeChanged) {
         timeChanged = false;
-        rtc.setTime(realTime[2], realTime[1], realTime[0], rtc.getDate(), rtc.getMonth(), rtc.getYear());
+        rtc.setTime(realTime[2], realTime[1], realTime[0], rtc.getTime().day, rtc.getTime().month, rtc.getTime().year);
       }
       lcd.clear();
       drawStartMenu(1);

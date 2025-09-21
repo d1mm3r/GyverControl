@@ -611,7 +611,7 @@ void redrawDebug() {
   if (realTime[2] < 10) lcd.print(0);
   lcd.print((byte)(realTime[2]));
   lcd.setCursor(9, 3);
-  byte today = rtc.getDay();
+  byte today = rtc.getTime().day;
   if (today == 0) today = 7;
   lcd.print(today);
   lcd.setCursor(12, 3); lcd.print(F("U:")); lcd.print(uptime);
@@ -637,14 +637,15 @@ void redrawMainSettings() {
     if (index >= 0) {
       lcd.print(settingsPageNames[index]);
       spaceColon();
+      
       switch (index) {
         case 0: if (settings.backlight) printOn();
           else printOff(); break;
         case 1: lcd.print(settings.backlTime); break;
         case 2: lcd.print(settings.drvSpeed); break;
-        case 3: lcd.print(rtc.getDate()); break;
-        case 4: lcd.print(rtc.getMonth()); break;
-        case 5: lcd.print(rtc.getYear()); break;
+        case 3: lcd.print(rtc.getTime().day); break;
+        case 4: lcd.print(rtc.getTime().month); break;
+        case 5: lcd.print(rtc.getTime().year); break;
         case 6: lcd.print(settings.comSensPeriod); break;
         case 7: lcd.print(plotNames[settings.plotMode]); break;
 #if (SMOOTH_SERVO == 1)

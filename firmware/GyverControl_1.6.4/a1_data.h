@@ -114,8 +114,8 @@ LiquidCrystal_I2C lcd(LCD_ADDR, 20, 4);
 
 #include <EEPROM.h>
 
-#include <microDS3231.h>
-MicroDS3231 rtc;
+#include <GyverDS3231.h>
+GyverDS3231 rtc;
 
 // bme
 #if (USE_BME == 1)

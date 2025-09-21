@@ -1,9 +1,10 @@
 void timersTick() {   // каждую секунду
   // получаем время
-  realTime[0] = rtc.getHours();
-  realTime[1] = rtc.getMinutes();
-  realTime[2] = rtc.getSeconds();
-  getDay();   // получить номер дня
+  Datime dt = rtc.getTime();
+  realTime[0] = dt.hour;
+  realTime[1] = dt.minute;
+  realTime[2] = dt.second;
+  thisDay = dt.yearDay;   // получить номер дня
   uptime += (float)0.0000115741;   // аптайм у нас в сутках! 1/(24*60*60)
 
   for (byte curChannel = 0; curChannel < 10; curChannel++) {
@@ -218,7 +219,8 @@ void timersTick() {   // каждую секунду
 }
 
 boolean checkDay(byte channel) {
-  byte today = rtc.getDay();
+  //dt = rtc.getTime();
+  byte today = rtc.getTime().day;
   if (today == 0) today = 7;
   long thisTime = ((long)realTime[0] * 3600 + realTime[1] * 60 + realTime[2]);
   channelsStruct temp = loadChannel(channel);
@@ -278,16 +280,6 @@ void checkDawn(byte curChannel) {
     pwmVal[curPWMchannel] = thisSignal;
   }
 #endif
-}
-
-void getDay() {
-  uint16_t days = rtc.getDate();
-  for (byte i = 0; i < rtc.getMonth() - 1; i++)
-    days += daysMonth[i];
-
-  if (rtc.getMonth() > 2 && rtc.getYear() % 4 == 0) // високосный
-    ++days;
-  thisDay = days;
 }
 
 #if (SCHEDULE_NUM > 0)

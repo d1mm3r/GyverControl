@@ -21,8 +21,8 @@ void initHardware() {
 #endif
 
   // ----- RTC -----
-  if (rtc.lostPower()) {  //  при потере питания
-    rtc.setTime(COMPILE_TIME);  // установить время компиляции
+  if (rtc.isReset()) {  //  при потере питания
+    rtc.setBuildTime();  // установить время компиляции
   }
 
   // ---------- BME ----------
@@ -120,7 +120,8 @@ void applySettings() {
   else pwmVal[4] = settings.maxAngle[0];
 
 #if (SMOOTH_SERVO == 1)
-  servo1.attach(SERVO_0, SERVO_MIN_PULSE, SERVO_MAX_PULSE, pwmVal[4]); // 600 и 2400 - длины импульсов, при которых серво крутит на 0 и 180. Также указываем стартовый угол
+  servo1.attach(SERVO_0, SERVO_MIN_PULSE, SERVO_MAX_PULSE, pwmVal[4]); // 600 и 2400 - длины импульсов, при которых серво крутит на 0 и 180. 
+                                                                       // Также указываем стартовый угол
   if (!loadChannel(7).state) servo1.stop();
 
   servo1.setSpeed(settings.srv1_Speed);    // ограничить скорость
