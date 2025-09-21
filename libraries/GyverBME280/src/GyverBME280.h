@@ -17,7 +17,7 @@
 #define GyverBME280_h
 
 #include <Arduino.h>
-#include <Wire.h>
+#include <microWire.h>
 
 #define NORMAL_MODE 0x03
 #define FORCED_MODE 0x02
