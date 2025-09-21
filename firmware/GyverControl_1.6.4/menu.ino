@@ -236,16 +236,15 @@ void settingsSett(int dir) {
 }
 
 void setDMY(byte set, int dir) {
-  Datime dt = rtc.getTime();
-  int thisD = dt.day;
-  int thisM = dt.month;
-  int thisY = dt.year;
+  int thisD = rtc.getTime().day;
+  int thisM = rtc.getTime().month;
+  int thisY = rtc.getTime().year;
   switch (set) {
     case 0: thisD += dir; if (thisD < 1) thisD = 1; break;
     case 1: thisM += dir; if (thisM < 1) thisM = 1; break;
     case 2: thisY += dir; break;
   }
-  rtc.setTime(dt.second, dt.minute, dt.hour, thisD, thisM, thisY);
+  rtc.setTime(rtc.getTime().second, rtc.getTime().minute, rtc.getTime().hour, thisD, thisM, thisY);
 }
 
 // выбор канала

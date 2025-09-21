@@ -1,10 +1,10 @@
 void timersTick() {   // каждую секунду
   // получаем время
-  Datime dt = rtc.getTime();
-  realTime[0] = dt.hour;
-  realTime[1] = dt.minute;
-  realTime[2] = dt.second;
-  thisDay = dt.yearDay;   // получить номер дня
+  
+  realTime[0] = rtc.getTime().hour;
+  realTime[1] = rtc.getTime().minute;
+  realTime[2] = rtc.getTime().second;
+  thisDay = rtc.getTime().yearDay;   // получить номер дня
   uptime += (float)0.0000115741;   // аптайм у нас в сутках! 1/(24*60*60)
 
   for (byte curChannel = 0; curChannel < 10; curChannel++) {
