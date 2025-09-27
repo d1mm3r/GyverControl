@@ -29,20 +29,32 @@ void getAllData() {
 
 #if (DALLAS_SENS1 == 1)
 #if (DALLAS_AMOUNT > 1)
-  for (byte i = 0; i < DALLAS_AMOUNT; i++) {
-    float thisDal = dallas[i].getTemp();
-    if (thisDal != 0) dallasBuf[i] = thisDal;
-    dallas[i].requestTemp();
-  }
   float thisMin = 200.0, thisMax = -200.0, thisSum = 0.0;
-  for (byte i = 0; i < DALLAS_AMOUNT; i++) {
-    thisSum += dallasBuf[i];
-    if (dallasBuf[i] > thisMax) thisMax = dallasBuf[i];
-    if (dallasBuf[i] < thisMin) thisMin = dallasBuf[i];
+  if (dallas.ready()) {  // измерения готовы по таймеру
+    for (byte i = 0; i < DALLAS_AMOUNT; i++) {
+      if (dallas.readTemp(i)) 
+      {
+        float thisDal = dallas.getTemp();
+        if (thisDal != 0) dallasBuf[i] = thisDal;
+      }
+    }
+    dallas.requestTemp();  // запрос следующего измерения ДЛЯ ВСЕХ
+    for (byte i = 0; i < DALLAS_AMOUNT; i++) {
+      thisSum += dallasBuf[i];
+      if (dallasBuf[i] > thisMax) thisMax = dallasBuf[i];
+      if (dallasBuf[i] < thisMin) thisMin = dallasBuf[i];
+    }
   }
-
 #if (DALLAS_MODE == 0)
-  sensorVals[2] = thisSum / DALLAS_AMOUNT;
+  int validCount = 0;
+  for (byte i = 0; i < DALLAS_AMOUNT; i++) {
+    if (dallasBuf[i] != 0) validCount++;
+  }
+  if (validCount > 0) {
+    sensorVals[2] = thisSum / validCount;
+  } else {
+    sensorVals[2] = 0; // ошибка подсчета среднего
+  }
 #elif (DALLAS_MODE == 1)
   sensorVals[2] = thisMax;
 #elif (DALLAS_MODE == 2)
@@ -50,6 +62,7 @@ void getAllData() {
 #endif
 
 #else
+  dallas.readTemp();
   sensorVals[2] = dallas.getTemp();
   dallas.requestTemp();
 #endif

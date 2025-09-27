@@ -124,12 +124,13 @@ GyverBME280 bme;
 #endif
 
 #if (DALLAS_SENS1 == 1)
-#include <microDS18B20.h>
 #if (DALLAS_AMOUNT > 1)
-MicroDS18B20 dallas[DALLAS_AMOUNT];
+#include <GyverDS18Array.h>
+GyverDS18Array dallas(SENS_1, dsAddress, DALLAS_AMOUNT);
 float dallasBuf[DALLAS_AMOUNT];
 #else
-MicroDS18B20 dallas(SENS_1);
+#include <GyverDS18Single.h>
+GyverDS18Single dallas(SENS_1);
 #endif
 #endif
 

@@ -152,11 +152,8 @@ void applySettings() {
 #endif
 #endif
 
-#if (DALLAS_AMOUNT > 1)
-  for (byte i = 0; i < DALLAS_AMOUNT; i++) {
-    dallas[i].setPin(SENS_1);
-    dallas[i].setAddress(dsAddress[i]);
-  }
+#if (DALLAS_AMOUNT >= 1)
+  dallas.requestTemp();
 #endif
 }
 

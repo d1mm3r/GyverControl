@@ -13,11 +13,10 @@ void setup() {
   uart.println("set , input , out");
 #endif
 #endif
-
 #endif
 
-  boolean startupPress = false;
-  initHardware();
+boolean startupPress = false;
+initHardware();
 
   // просто сброс настроек
 #if (START_MENU == 0)
